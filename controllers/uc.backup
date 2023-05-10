@@ -1,0 +1,22 @@
+const User = require("../models/User");
+
+const getAllUsers = handleAsyncErrors(async (req, res) => {
+  const users = await User.find();
+  if (users.length === 0) {
+    return res.status(404).json({ error: "User not found" });
+  }
+  res.status(200).json(users);
+});
+
+const getUserByID = handleAsyncErrors(async (req, res) => {
+  const { id } = req.params;
+  const user = await User.findById(id);
+  if (!user) {
+    return res.status(404).json({ error: "User not found" });
+  }
+  res.status(200).json(user);
+});
+  
+module.exports = {
+  getAllUsers, getUserByID
+};
